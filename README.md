@@ -93,4 +93,4 @@ npm i react-native-circular-indicator
 | `scaleWidth` | `number` | 2 |
 | `scaleColor` | `string` | '#2a2a2a' |
 | `scaleOpacity` | `number` | 0.1 |
-| `svgProps` | `Record<string, any>` | {} |
+| `svgExtraProps` | `Record<string, any>` | {} |
