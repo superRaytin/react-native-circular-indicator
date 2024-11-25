@@ -1,6 +1,6 @@
 {
   "name": "react-native-circular-indicator",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A simple circular progress indicator component for React Native.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -10,7 +10,8 @@
   "scripts": {
     "lint": "eslint 'src/**/*.{js,ts,tsx}'",
     "lint:fix": "eslint 'src/**/*.{js,ts,tsx}' --fix",
-    "build": "tsc",
+    "clean": "rm -rf lib",
+    "build": "npm run clean && tsc",
     "prepublishOnly": "npm run lint && npm run build"
   },
   "repository": "https://github.com/superRaytin/react-native-circular-indicator",

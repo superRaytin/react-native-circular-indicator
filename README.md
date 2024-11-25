@@ -11,7 +11,7 @@ A simple circular progress indicator component for React Native
 
 ## Screenshots
 
-![](examples/images/demo1.png) ![](examples/images/demo2.png) ![](examples/images/demo3.png)
+![](examples/images/screenshot.png)
 
 ## Installation
 
