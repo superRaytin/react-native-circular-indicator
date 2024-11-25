@@ -1,3 +1,3 @@
-import SvgProgress from './svgProgress'
-export type { SvgProgressProps } from './svgProgressProps';
-export default SvgProgress
+import CircularIndicator from './circularIndicator'
+export type { CircularIndicatorProps } from './circularIndicatorProps';
+export default CircularIndicator

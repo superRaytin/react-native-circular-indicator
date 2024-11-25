@@ -3,7 +3,7 @@ import { StyleProp, ViewStyle } from 'react-native';
 
 type ColorPoint = [number, string];
 
-export interface SvgProgressProps {
+export interface CircularIndicatorProps {
   style?: StyleProp<ViewStyle>;
   size: number;
   // defaults to 1
@@ -27,6 +27,6 @@ export interface SvgProgressProps {
   scaleColor?: string;
   // defaults to 0.1
   scaleOpacity?: number;
-  svgProps?: Record<string, any>;
+  svgExtraProps?: Record<string, any>;
   children?: React.ReactElement | ((props: any) => React.ReactElement<any>);
 }

@@ -1,13 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
 import Svg, { Circle, Defs, Line, LinearGradient, Stop } from 'react-native-svg';
-import { SvgProgressProps } from './svgProgressProps'
+import { CircularIndicatorProps } from './circularIndicatorProps'
 import styles from './styles'
 
-const SvgProgress = (props: SvgProgressProps) => {
+const CircularIndicator = (props: CircularIndicatorProps) => {
   const {
     style = {},
-    svgProps = {},
     size,
     percent = 1,
     gapAngle = 90,
@@ -20,17 +19,21 @@ const SvgProgress = (props: SvgProgressProps) => {
     scaleWidth = 2,
     scaleColor = '#2a2a2a',
     scaleOpacity = 0.1,
+    svgExtraProps = {},
     children,
   } = props
 
-  const radius = (size - progressBarWidth) / 2;
-  const circumference = 2 * Math.PI * radius;
+  const halfSrokeWidth = progressBarWidth / 2
+  const radius = (size - progressBarWidth) / 2
+  const circumference = 2 * Math.PI * radius
+  const gapLength = (gapAngle / 360) * circumference
+  const addRotateAngle = halfSrokeWidth / (circumference / 360)
   const isLinearGradientColor = typeof progressBarColor !== 'string'
 
   const renderBackgroundCircle = () => {
-    const gapLength = (gapAngle / 360) * circumference
     const progressLength = circumference - gapLength
-    const dashArray = `${progressLength}, ${gapLength}`
+    const finalProgressLength = progressLength < progressBarWidth ? 1 : progressLength - progressBarWidth
+    const dashArray = `${finalProgressLength}, ${circumference - finalProgressLength}`
 
     return (
       <Circle
@@ -43,15 +46,15 @@ const SvgProgress = (props: SvgProgressProps) => {
         strokeDashoffset={0}
         fill="none"
         strokeLinecap="round"
-        transform={`rotate(${90 + gapAngle / 2} ${size / 2} ${size / 2})`}
+        transform={`rotate(${90 + gapAngle / 2 + addRotateAngle} ${size / 2} ${size / 2})`}
       />
     );
   };
 
   const renderCircularProgress = () => {
-    const gapLength = (gapAngle / 360) * circumference
     const progressLength = (percent / 100) * (circumference - gapLength)
-    const dashArray = `${progressLength}, ${circumference - progressLength}`
+    const finalProgressLength = progressLength < progressBarWidth ? 1 : progressLength - progressBarWidth
+    const dashArray = `${finalProgressLength}, ${circumference - finalProgressLength}`
 
     return (
       <Circle
@@ -65,14 +68,14 @@ const SvgProgress = (props: SvgProgressProps) => {
         fill={progressFillColor}
         strokeLinecap="round"
         strokeOpacity={progressBarOpacity}
-        transform={`rotate(${90 + gapAngle / 2} ${size / 2} ${size / 2})`}
+        transform={`rotate(${90 + gapAngle / 2 + addRotateAngle} ${size / 2} ${size / 2})`}
       />
     )
   }
 
   const renderScaleAngles = () => {
     if (!scaleAngles) return null
-    return scaleAngles.map((angle, index) => {
+    return scaleAngles.map((angle: number, index: number) => {
       const radian = (angle * Math.PI) / 180;
       const halfSrokeWidth = progressBarWidth / 2
       const x1 = size / 2 + (radius + halfSrokeWidth) * Math.cos(radian);
@@ -105,7 +108,7 @@ const SvgProgress = (props: SvgProgressProps) => {
     return (
       <Defs>
         <LinearGradient id="progressGrad" {...linearGradientProps}>
-          {progressBarColor.map((item, index) => (
+          {progressBarColor.map((item: [number, string], index: number) => (
             <Stop key={index} offset={`${item[0]}%`} stopColor={item[1]} stopOpacity="1" />
           ))}
         </LinearGradient>
@@ -131,7 +134,7 @@ const SvgProgress = (props: SvgProgressProps) => {
 
   return (
     <View style={containerStyle}>
-      <Svg viewBox={`0 0 ${size} ${size}`} width={size} height={size} {...svgProps}>
+      <Svg viewBox={`0 0 ${size} ${size}`} width={size} height={size} {...svgExtraProps}>
         {renderDefs()}
         {renderBackgroundCircle()}
         {renderCircularProgress()}
@@ -142,4 +145,4 @@ const SvgProgress = (props: SvgProgressProps) => {
   );
 };
 
-export default SvgProgress;
+export default CircularIndicator;
